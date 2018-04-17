@@ -1,24 +1,25 @@
+
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const morgan = require('morgan');
-const PORT = process.env.PORT || 3001;
 const blogpostRoutes = require('./routes/blogposts');
+
+
 app.use(cors());
 app.use(morgan('combined'));
-app.use(express.json()); // Body parser!
+app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 app.get('/', (request, response) => {
-    response.send('Welcome to my Blog site!!');
+  response.send('Welcome to my blog.');
 });
-app.use('/blogposts', blogpostRoutes);
-app.use((error, request, response, next) => {
-    console.error(error.stack);
-    response.status(500).send("Internal server error");
-});
-app.use((request, response, next) => {
-    response.status(404).send('Not found.');
-});
-app.listen(PORT, () => {
-    console.log(`Ajax BLOG: Listening on port no. ${PORT}`);
-});
+
+app.use('/posts', blogpostRoutes);
+
+
+
+app.listen( PORT, () => {
+  console.log(`AJAX Blog: Listening on port no. ${PORT}`)
+})
